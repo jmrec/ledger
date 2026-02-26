@@ -1,0 +1,53 @@
+{
+    "name": "ledger",
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "ledger",
+    "workspaceFolder": "/workspace",
+    "remoteUser": "vscode",
+    "updateRemoteUserUID": true,
+
+    "features": {
+        "ghcr.io/devcontainers/features/java:1": {
+            "version": "21",
+            "installGradle": "true"
+        },
+        "ghcr.io/devcontainers/features/docker-in-docker:1": {},
+        "ghcr.io/devcontainers/features/git:1": {}
+    },
+
+    "mounts": [
+        "source=vscode_extensions,target=/home/vscode/.vscode-server/extensions,type=volume",
+        "source=vscode_data,target=/home/vscode/.vscode-server/data,type=volume",
+        "source=${localEnv:HOME}/.ssh/id_ed25519_signing.pub,target=/home/vscode/.ssh/id_ed25519_signing.pub,type=bind,consistency=cached",
+        "source=gradle_cache,target=/home/vscode/.gradle,type=volume"
+    ],
+
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "java.configuration.runtimes": [
+                    { "name": "JavaSE-21", "path": "/usr/local/sdkman/candidates/java/current", "default": true }
+                ],
+                "terminal.integrated.defaultProfile.linux": "bash"
+            },
+            "extensions": [
+                "mathiasfrohlich.kotlin",
+                "vmware.vscode-boot-dev-pack",
+                "vscjava.vscode-java-pack",
+                "bufbuild.vscode-buf",
+                "oderwat.indent-rainbow",
+                "mhutchie.git-graph",
+                "bradlc.vscode-tailwindcss"
+            ]
+        },
+        "intellij": {
+            "plugins": [
+                "org.jetbrains.kotlin",
+                "com.intellij.spring.boot",
+                "com.google.pb.protobuf"
+            ]
+        }
+    },
+
+    "postCreateCommand": "sudo chown -R vscode:vscode /home/vscode && git config --global gpg.format ssh && git config --global user.signingkey /home/vscode/.ssh/id_ed25519_signing.pub && git config --global commit.gpgsign true"
+}

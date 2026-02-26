@@ -1,0 +1,22 @@
+networks:
+  supabase-local:
+    external: true
+
+services:
+  ledger:
+    container_name: ledger
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ..:/workspace:cached
+    command: sleep infinity
+    networks:
+      - supabase-local
+
+volumes:
+  vscode_extensions:
+    external: true
+  vscode_data:
+    external: true
+  gradle_cache:
