@@ -1,13 +1,9 @@
 FROM mcr.microsoft.com/devcontainers/base:ubuntu-22.04
 
 ARG USERNAME=vscode
-ARG USER_UID=1000
-ARG USER_GID=1000
 ENV APP_HOME=/workspace
 
-RUN groupadd --gid $USER_GID $USERNAME \
-    && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \ 
-    && apt-get update && export DEBIAN_FRONTEND=noninteractive \
+RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install --no-install-recommends \
     build-essential \
     sudo \
@@ -19,9 +15,7 @@ RUN groupadd --gid $USER_GID $USERNAME \
     ca-certificates \
     curl \
     gnupg \
-    unzip \
-    && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
-    && chmod 0440 /etc/sudoers.d/$USERNAME
+    unzip
 
 RUN mkdir -p $APP_HOME /home/$USERNAME/.vscode-server/extensions /home/$USERNAME/.vscode-server/data \
     && chown -R $USERNAME:$USERNAME $APP_HOME /home/$USERNAME
